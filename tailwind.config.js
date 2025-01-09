@@ -5,11 +5,13 @@ export default {
     './*.{html,js}', 
     './src/**/*.{js,jsx}'
   ],
-  screens:{
-    sm:'480px',
-    md:'767px',
-    lg:'1020px',
-    xl:'1440px'
+  screens: {
+    'xs': '320px', // Extra small (your custom sm)
+    sm: '375px', // Example: slightly larger phone
+    md: '768px', // Typical tablet
+    lg: '1024px', // Typical laptop
+    xl: '1280px', // Large desktop
+    '2xl': '1536px',
   },
   theme: {
     extend: {},
