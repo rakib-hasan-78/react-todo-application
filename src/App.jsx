@@ -8,7 +8,6 @@ function App() {
   return (
     <>
       <Todo />
-      <Modal title ={`are you sure to edit ?`} className=''/>
     </>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../utilities/Button';
+import Modal from './Modal';
 
 const Application = () => {
     const [list, setList] = useState([]);
@@ -19,7 +20,17 @@ const Application = () => {
     }
 
     const clickToEdit = () => {
-        console.log(` clicked....`);
+        if (editedData!==null && editText!=='') {
+            const updatedData = list.map(value=>{
+                if (value.id===editedData.id) {
+                    return{...value, text:editText}
+                }
+                return value;
+            });
+            setList(updatedData);
+            setEditedData(null);
+            setEditText('');
+        }
     } 
 
     return (
@@ -61,7 +72,10 @@ const Application = () => {
                                     <td>{element.id}</td>
                                     <td>{element.text}</td>
                                     <td><Button onClick={()=>removeElement(element)} text={`Remove`}/></td>
-                                    <td><Button text={`edit`} /></td>
+                                    <td>
+                                    <Button
+                                     text={`edit`} onClick={()=>{setEditedData(element); setEditText(element.text)}}/>{editedData&&editedData.id === element.id && ( <Modal title={`are you sure to edit ?`} id={element.id} actionValue={clickToEdit} actionDiscard={()=>setEditedData(false)} newTask={editText} setTask={(e)=>setEditText(e.target.value)} /> )}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
