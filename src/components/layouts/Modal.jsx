@@ -10,7 +10,7 @@ const Modal = ({title,className, actionValue, actionDiscard, newTask, setTask, .
             </div>    
             <div  className={`w-full flex items-center justify-center ${className}`} {...props}>
                 <input {...props}
-                className='rounded-md bg-violet-400/90 border-0 outline-none caret-violet-200 text-violet-200 capitalize'
+                className='rounded-md bg-violet-400/90 border-0 outline-none caret-violet-200 text-violet-200'
                  type="text" name="updated-text" id="#" value={newTask} onChange={setTask} />
             </div>
             <div className='w-full flex items-center justify-center space-x-3 my-3'>

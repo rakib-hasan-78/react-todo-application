@@ -5,6 +5,7 @@ import Modal from './Modal';
 const Application = () => {
     const [list, setList] = useState([]);
     const [data, setData] = useState('');
+    const[modifiedData, setModifiedData]=useState([]);
     const [editedData, setEditedData] = useState(null);
     const [editText, setEditText] = useState('');
 
@@ -33,9 +34,25 @@ const Application = () => {
         }
     } 
 
+    const clickToComplete = (element) => {
+        setModifiedData([...modifiedData, element.id]);
+        const completedData = list.map((value, index) => {
+            if (value.id===element.id) {
+                return{...value, completed: true}
+            }
+            return value
+        })
+        setList(completedData);
+    }
+
+    const clickToUndo = (element) => {
+        
+    }
+
     return (
         <div className="w-full flex flex-wrap items-center justify-center my-28">
-            <div className="bg-blue-100/5 backdrop-blur-lg shadow-lg rounded-lg w-1/3 py-4 mx-auto mt-10 border border-white/30">
+            <div className="bg-blue-100/5 backdrop-blur-lg shadow-lg rounded-lg w-1/2
+    }  py-4 mx-auto mt-10 border border-white/30 bg-blend-color-dodge">
                 <div className="w-full flex items-center justify-center space-x-4">
                     <input
                         value={data}
@@ -54,7 +71,7 @@ const Application = () => {
                         text="Add Task"
                     />
                 </div>
-                <div>{`Total tasks: ${list.length}`}</div>
+                <div>{`Total tasks: ${list.length}`}</div>	
                 <div className="w-full my-5">
                     <table className='w-full'>
                         <thead className='w-full'>
@@ -70,12 +87,14 @@ const Application = () => {
                                 <tr key={element.id} className="w-full">
                                     <td>{index + 1<10? `0${index+1}.`: index+1.}</td>
                                     <td>{element.id}</td>
-                                    <td>{element.text}</td>
+                                    <td  className={element.completed? 'line-through' : ''} >{element.text}</td>
                                     <td><Button onClick={()=>removeElement(element)} text={`Remove`}/></td>
                                     <td>
-                                    <Button
+                                    <Button  disabled={modifiedData.find(id=> id===element.id)} 
                                      text={`edit`} onClick={()=>{setEditedData(element); setEditText(element.text)}}/>{editedData&&editedData.id === element.id && ( <Modal title={`are you sure to edit ?`} id={element.id} actionValue={clickToEdit} actionDiscard={()=>setEditedData(false)} newTask={editText} setTask={(e)=>setEditText(e.target.value)} /> )}
                                     </td>
+                                    <td><Button disabled={modifiedData.find(id=> id===element.id)} text={`complete`} onClick={()=>clickToComplete(element)} /></td>
+                                    <td><Button text={`Undo`} /></td>
                                 </tr>
                             ))}
                         </tbody>
