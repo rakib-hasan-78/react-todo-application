@@ -30,7 +30,7 @@ const Application = () => {
             });
             setList(updatedData);
             setEditedData(null);
-            setEditText('');
+            setEditText('');condition
         }
     } 
 
@@ -46,8 +46,18 @@ const Application = () => {
     }
 
     const clickToUndo = (element) => {
-        
+        setModifiedData(modifiedData.filter(id=>id!==element.id));
+        const undoData = list.map(value=>{
+            if (value.id===element.id) {
+                return{...value, completed:false}
+            }
+            return value;
+        })
+
+        setList(undoData)
     }
+
+
 
     return (
         <div className="w-full flex flex-wrap items-center justify-center my-28">
@@ -94,7 +104,7 @@ const Application = () => {
                                      text={`edit`} onClick={()=>{setEditedData(element); setEditText(element.text)}}/>{editedData&&editedData.id === element.id && ( <Modal title={`are you sure to edit ?`} id={element.id} actionValue={clickToEdit} actionDiscard={()=>setEditedData(false)} newTask={editText} setTask={(e)=>setEditText(e.target.value)} /> )}
                                     </td>
                                     <td><Button disabled={modifiedData.find(id=> id===element.id)} text={`complete`} onClick={()=>clickToComplete(element)} /></td>
-                                    <td><Button text={`Undo`} /></td>
+                                    <td><Button disabled={!element.completed} text={`Undo`} onClick={()=>clickToUndo(element)} /></td>
                                 </tr>
                             ))}
                         </tbody>
